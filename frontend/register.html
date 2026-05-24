@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NomNom — Create Account</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:    #E8280B;
+      --orange: #FF6B2B;
+      --amber:  #FFAD42;
+      --dark:   #0F0A07;
+      --dark2:  #1A1108;
+      --cream:  #FFF8F0;
+      --muted:  #9E8B7A;
+      --card:   #1E1510;
+      --input:  #261A12;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--dark);
+      color: var(--cream);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ── LEFT PANEL ── */
+    .left-panel {
+      width: 40%;
+      background: var(--dark2);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2.5rem;
+    }
+
+    @media (max-width: 768px) { .left-panel { display: none; } }
+
+    .left-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 30%, rgba(255,107,43,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(232,40,11,0.12) 0%, transparent 60%);
+    }
+
+    .left-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,107,43,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,107,43,0.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.6rem;
+      color: var(--cream);
+      text-decoration: none;
+      letter-spacing: -0.03em;
+      position: relative; z-index: 2;
+    }
+    .logo span { color: var(--orange); }
+
+    .left-content {
+      position: relative; z-index: 2;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .left-headline {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+    .left-headline .accent {
+      background: linear-gradient(135deg, var(--orange), var(--amber));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .left-sub {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .perks { display: flex; flex-direction: column; gap: 0.8rem; }
+    .perk {
+      display: flex; align-items: center; gap: 0.8rem;
+      font-size: 0.88rem; color: var(--muted);
+    }
+    .perk-icon {
+      width: 32px; height: 32px;
+      background: rgba(255,107,43,0.12);
+      border: 1px solid rgba(255,107,43,0.2);
+      border-radius: 0.5rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .left-footer {
+      position: relative; z-index: 2;
+      color: var(--muted); font-size: 0.8rem;
+    }
+
+    /* ── RIGHT PANEL ── */
+    .right-panel {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .form-box {
+      width: 100%;
+      max-width: 440px;
+      padding: 0.5rem 0;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .mobile-logo {
+      display: none;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.5rem;
+      color: var(--cream);
+      text-decoration: none;
+      margin-bottom: 2rem;
+    }
+    .mobile-logo span { color: var(--orange); }
+    @media (max-width: 768px) { .mobile-logo { display: block; } }
+
+    .form-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.4rem;
+    }
+
+    .form-sub {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.8rem;
+    }
+    .form-sub a { color: var(--orange); text-decoration: none; }
+    .form-sub a:hover { text-decoration: underline; }
+
+    .form-group { margin-bottom: 1.1rem; }
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.02em;
+    }
+
+    input, select {
+      width: 100%;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 0.85rem 1rem;
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+    }
+    input::placeholder { color: rgba(255,255,255,0.2); }
+    input:focus, select:focus {
+      border-color: rgba(255,107,43,0.5);
+      box-shadow: 0 0 0 3px rgba(255,107,43,0.08);
+    }
+    select option { background: var(--card); }
+
+    .input-wrap { position: relative; }
+    .input-wrap input { padding-right: 3rem; }
+    .toggle-pw {
+      position: absolute; right: 1rem; top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer; font-size: 1.1rem;
+      color: var(--muted); user-select: none;
+    }
+
+    /* Role selector */
+    .role-selector {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .role-option { display: none; }
+    .role-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.9rem 0.5rem;
+      background: var(--input);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .role-label:hover { border-color: rgba(255,107,43,0.3); }
+    .role-option:checked + .role-label {
+      border-color: var(--orange);
+      background: rgba(255,107,43,0.1);
+      box-shadow: 0 0 0 3px rgba(255,107,43,0.08);
+    }
+    .role-emoji { font-size: 1.4rem; }
+    .role-name { font-size: 0.8rem; font-weight: 500; color: var(--cream); }
+    .role-desc { font-size: 0.72rem; color: var(--muted); }
+
+    /* Password strength */
+    .pw-strength {
+      margin-top: 0.4rem;
+      height: 3px;
+      border-radius: 100px;
+      background: var(--border);
+      overflow: hidden;
+    }
+    .pw-strength-bar {
+      height: 100%;
+      width: 0;
+      border-radius: 100px;
+      transition: width 0.3s, background 0.3s;
+    }
+    .pw-strength-text {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    .terms {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      font-size: 0.83rem; color: var(--muted);
+      margin-bottom: 1.4rem;
+      cursor: pointer;
+      line-height: 1.5;
+    }
+    .terms input[type="checkbox"] {
+      width: 16px; height: 16px; margin-top: 2px;
+      accent-color: var(--orange);
+      flex-shrink: 0;
+    }
+    .terms a { color: var(--orange); text-decoration: none; }
+
+    .btn-submit {
+      width: 100%;
+      padding: 0.95rem;
+      background: linear-gradient(135deg, var(--red), var(--orange));
+      border: none;
+      border-radius: 0.75rem;
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 4px 20px rgba(232,40,11,0.3);
+      letter-spacing: 0.01em;
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(232,40,11,0.45);
+    }
+    .btn-submit:active { transform: translateY(0); }
+
+    .login-link {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 1.2rem;
+    }
+    .login-link a { color: var(--orange); text-decoration: none; font-weight: 500; }
+    .login-link a:hover { text-decoration: underline; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--orange);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 1.4rem 0 0.8rem;
+    }
+
+    /* Alert */
+    .alert {
+      padding: 0.85rem 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.88rem;
+      margin-bottom: 1.2rem;
+      display: none;
+    }
+    .alert-error {
+      background: rgba(232,40,11,0.1);
+      border: 1px solid rgba(232,40,11,0.3);
+      color: #ff6b6b;
+    }
+    .alert-success {
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.3);
+      color: #4ade80;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="left-bg"></div>
+    <div class="left-grid"></div>
+
+    <a href="index.html" class="logo">Nom<span>Nom</span></a>
+
+    <div class="left-content">
+      <div class="left-headline">
+        Join the<br><span class="accent">NomNom</span><br>family.
+      </div>
+      <p class="left-sub">
+        Thousands of food lovers trust NomNom every day.
+        It's your turn.
+      </p>
+      <div class="perks">
+        <div class="perk">
+          <div class="perk-icon">🍔</div>
+          Browse hundreds of menu items from local vendors
+        </div>
+        <div class="perk">
+          <div class="perk-icon">📦</div>
+          Track your order status in real time
+        </div>
+        <div class="perk">
+          <div class="perk-icon">⭐</div>
+          Rate and review your dining experience
+        </div>
+        <div class="perk">
+          <div class="perk-icon">🎉</div>
+          Get exclusive promotions from your favorite restaurants
+        </div>
+      </div>
+    </div>
+
+    <div class="left-footer">© 2026 NomNom</div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <div class="form-box">
+      <a href="index.html" class="mobile-logo">Nom<span>Nom</span></a>
+
+      <div class="form-title">Create account</div>
+      <p class="form-sub">Already have an account? <a href="login.html">Sign in →</a></p>
+
+      <div class="alert alert-error" id="alertError"></div>
+      <div class="alert alert-success" id="alertSuccess"></div>
+
+      <!-- Role -->
+      <div class="section-label">I am a...</div>
+      <div class="role-selector">
+        <div>
+          <input type="radio" name="role" id="roleCustomer" value="customer" class="role-option" checked>
+          <label for="roleCustomer" class="role-label">
+            <span class="role-emoji">🧑‍💼</span>
+            <span class="role-name">Customer</span>
+            <span class="role-desc">Order food</span>
+          </label>
+        </div>
+        <div>
+          <input type="radio" name="role" id="roleVendor" value="vendor" class="role-option">
+          <label for="roleVendor" class="role-label">
+            <span class="role-emoji">🏪</span>
+            <span class="role-name">Vendor</span>
+            <span class="role-desc">Sell food</span>
+          </label>
+        </div>
+        <div>
+          <input type="radio" name="role" id="roleStaff" value="staff" class="role-option">
+          <label for="roleStaff" class="role-label">
+            <span class="role-emoji">👨‍🍳</span>
+            <span class="role-name">Staff</span>
+            <span class="role-desc">Manage orders</span>
+          </label>
+        </div>
+        <div>
+          <input type="radio" name="role" id="roleAdmin" value="admin" class="role-option">
+          <label for="roleAdmin" class="role-label">
+            <span class="role-emoji">⚙️</span>
+            <span class="role-name">Admin</span>
+            <span class="role-desc">Manage platform</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Personal Info -->
+      <div class="section-label">Personal info</div>
+
+      <div class="form-group">
+        <label for="name">Full name</label>
+        <input type="text" id="name" placeholder="Ahmad bin Ali">
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="you@email.com">
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" placeholder="+60 12-345 6789">
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="section-label">Security</div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrap">
+          <input type="password" id="password" placeholder="At least 8 characters">
+          <span class="toggle-pw" id="togglePw">👁</span>
+        </div>
+        <div class="pw-strength">
+          <div class="pw-strength-bar" id="strengthBar"></div>
+        </div>
+        <div class="pw-strength-text" id="strengthText"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPw">Confirm password</label>
+        <div class="input-wrap">
+          <input type="password" id="confirmPw" placeholder="Repeat your password">
+          <span class="toggle-pw" id="toggleConfirm">👁</span>
+        </div>
+      </div>
+
+      <!-- Terms -->
+      <label class="terms">
+        <input type="checkbox" id="terms">
+        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+      </label>
+
+      <button class="btn-submit" id="registerBtn">Create account →</button>
+
+      <div class="login-link">
+        Already have an account? <a href="login.html">Sign in</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="../config/api.js"></script>
+  <script>
+    // Toggle password
+    $('#togglePw').on('click', function () {
+      const pw = $('#password');
+      pw.attr('type', pw.attr('type') === 'text' ? 'password' : 'text');
+      $(this).text(pw.attr('type') === 'text' ? '🙈' : '👁');
+    });
+    $('#toggleConfirm').on('click', function () {
+      const pw = $('#confirmPw');
+      pw.attr('type', pw.attr('type') === 'text' ? 'password' : 'text');
+      $(this).text(pw.attr('type') === 'text' ? '🙈' : '👁');
+    });
+
+    // Password strength
+    $('#password').on('input', function () {
+      const val = $(this).val();
+      const bar = $('#strengthBar');
+      const text = $('#strengthText');
+      let strength = 0;
+      if (val.length >= 8) strength++;
+      if (/[A-Z]/.test(val)) strength++;
+      if (/[0-9]/.test(val)) strength++;
+      if (/[^A-Za-z0-9]/.test(val)) strength++;
+
+      const configs = [
+        { w: '0%', c: 'transparent', t: '' },
+        { w: '25%', c: '#E8280B', t: 'Weak' },
+        { w: '50%', c: '#FF6B2B', t: 'Fair' },
+        { w: '75%', c: '#FFAD42', t: 'Good' },
+        { w: '100%', c: '#4ade80', t: 'Strong' },
+      ];
+      const cfg = configs[strength];
+      bar.css({ width: cfg.w, background: cfg.c });
+      text.text(cfg.t).css('color', cfg.c);
+    });
+
+    // Register
+    $('#registerBtn').on('click', function () {
+      const name = $('#name').val().trim();
+      const email = $('#email').val().trim();
+      const phone = $('#phone').val().trim();
+      const password = $('#password').val();
+      const confirmPw = $('#confirmPw').val();
+      const role = $('input[name="role"]:checked').val();
+      const agreed = $('#terms').is(':checked');
+
+      $('#alertError, #alertSuccess').hide();
+
+      if (!name || !email || !phone || !password || !confirmPw) {
+        $('#alertError').text('Please fill in all fields.').show();
+        return;
+      }
+      if (password.length < 8) {
+        $('#alertError').text('Password must be at least 8 characters.').show();
+        return;
+      }
+      if (password !== confirmPw) {
+        $('#alertError').text('Passwords do not match.').show();
+        return;
+      }
+      if (!agreed) {
+        $('#alertError').text('Please agree to the Terms of Service.').show();
+        return;
+      }
+
+      const btn = $(this);
+      btn.text('Creating account...').prop('disabled', true);
+
+      $.ajax({
+        url: API_BASE_URL + '/auth/register.php',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ name, email, phone, password, role }),
+        dataType: 'json',
+        success: function (res) {
+          if (res.success) {
+            $('#alertSuccess').text('Account created! Redirecting to login...').show();
+            setTimeout(() => { window.location.href = 'login.html'; }, 1200);
+          } else {
+            $('#alertError').text(res.message || 'Registration failed.').show();
+            btn.text('Create account →').prop('disabled', false);
+          }
+        },
+        error: function () {
+          $('#alertError').text('Something went wrong. Please try again.').show();
+          btn.text('Create account →').prop('disabled', false);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
